@@ -47,30 +47,48 @@ class local_deleteteacherbackups_databasebackups_testcase extends advanced_testc
      * Get database backups.
      *
      * @return void
-     * @throws dml_exception
      */
-    public function test_getbackups(): void {
-        global $DB;
-
-        $maxdays = 30;
-        $backups = $this->databasebackups->getbackups($maxdays);
+    public function test_get_backups_valid_days(): void {
+        $anypositivenumber = 30;
+        $backups = $this->databasebackups->getbackups($anypositivenumber);
 
         $this->assertIsArray($backups);
+    }
+
+    /**
+     * Error on getting database backups.
+     *
+     * @return void
+     */
+    public function test_get_backups_invalid_days(): void {
+        $anynonnumber = null;
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->databasebackups->getbackups($anynonnumber);
     }
 
     /**
      * Delete database backups.
      *
      * @return void
-     * @throws dml_exception
      */
-    public function test_deletebackups(): void {
-        $this->resetAfterTest();
-
-        $testhash = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
-        $deleted = $this->databasebackups->deletebackups($testhash);
+    public function test_delete_backups_by_hashes(): void {
+        $anyhasharray = ['da39a3ee5e6b4b0d3255bfef95601890afd80709'];
+        $deleted = $this->databasebackups->deletebackups($anyhasharray);
 
         $this->assertTrue($deleted);
+    }
+
+    /**
+     * Delete database backups.
+     *
+     * @return void
+     */
+    public function test_invalid_hashes_on_delete(): void {
+        $anyvariable = null;
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->databasebackups->deletebackups($anyvariable);
     }
 
     /**

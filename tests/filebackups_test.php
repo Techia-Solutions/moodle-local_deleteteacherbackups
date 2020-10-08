@@ -47,28 +47,40 @@ class local_deleteteacherbackups_filebackups_testcase extends advanced_testcase 
      * Checks to see if the backup is valid.
      *
      * @return void
-     * @throws dml_exception
      */
-    public function test_isvalidbackup(): void {
-        $testhashes = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
-        $deleted = $this->filebackups->isvalidbackup($testhash);
+    public function test_backups_are_valid(): void {
+        $anyhasharray = ['da39a3ee5e6b4b0d3255bfef95601890afd80709'];
+        $deleted = $this->filebackups->backupsarevalid($anyhasharray);
 
         $this->assertFalse($deleted);
     }
 
     /**
-     * Delete file backups.
+     * Delete file backups with an invalid hash.
      *
      * @return void
-     * @throws dml_exception
      */
-    public function test_deletebackups(): void {
+    public function test_file_backups_are_deleted_with_invalid_hash(): void {
         $this->resetAfterTest();
 
-        $testhashes = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
-        $deleted = $this->filebackups->deletebackups($testhash);
+        $anyhasharray = ['da39a3ee5e6b4b0d3255bfef95601890afd80709'];
+        $deleted = $this->filebackups->deletebackups($anyhasharray);
 
         $this->assertTrue($deleted);
+    }
+
+    /**
+     * Throw error on delete file backups with invalid entry.
+     *
+     * @return void
+     */
+    public function test_file_backups_are_not_deleted_without_array(): void {
+        $this->resetAfterTest();
+
+        $anyvariable = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->filebackups->deletebackups($anyvariable);
     }
 
     /**
