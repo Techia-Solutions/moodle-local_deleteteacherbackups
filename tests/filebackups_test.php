@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * File containing tests for backups.
+ * File containing tests for file backups.
  *
  * @package     local_deleteteacherbackups
  * @category    test
@@ -36,14 +36,56 @@ defined('MOODLE_INTERNAL') || die();
 // https://phpunit.de
 
 /**
- * The backups test class.
+ * The file backups test class.
  *
  * @package    local_deleteteacherbackups
  * @copyright  2020 Tia <tia@techiasolutions.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_deleteteacherbackups_backups_testcase extends advanced_testcase {
+class local_deleteteacherbackups_filebackups_testcase extends advanced_testcase {
+    /**
+     * Checks to see if the backup is valid.
+     *
+     * @return void
+     * @throws dml_exception
+     */
+    public function test_isvalidbackup(): void {
+        $testhashes = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
+        $deleted = $this->filebackups->isvalidbackup($testhash);
 
-    // Write the tests here as public funcions.
+        $this->assertFalse($deleted);
+    }
 
+    /**
+     * Delete file backups.
+     *
+     * @return void
+     * @throws dml_exception
+     */
+    public function test_deletebackups(): void {
+        $this->resetAfterTest();
+
+        $testhashes = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
+        $deleted = $this->filebackups->deletebackups($testhash);
+
+        $this->assertTrue($deleted);
+    }
+
+    /**
+     * Setup data call.
+     *
+     * @return void
+     */
+    public function setUp(): void {
+        $this->filebackups = new filebackups();
+    }
+
+    /**
+     * Tears down the data call.
+     *
+     * @return void
+     */
+    public function tearDown(): void {
+        $this->filebackups = null;
+    }
 }
