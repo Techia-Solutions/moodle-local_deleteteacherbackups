@@ -1,8 +1,16 @@
 # Delete Teacher Backups #
 
-TODO Describe the plugin shortly here.
+Deletes teacher created course backups after a specified amount of days. 
 
-TODO Provide more detailed description here.
+This plugin is *destructive*. Backups cannot be restored after deletion. These backups usually tend to take up space and are not removed by Moodle automatically. Backups are removed per the scheduled tasks schedule. The default is nightly.
+
+_Proceed with caution._
+
+Installation:
+
+01) Copy the files to the \local folder. 
+02) Visit the \admin page on your site to complete installation.
+03) Update the settings for the plugin to indicate the number of days to allow the backup to stay in Moodle.
 
 ## License ##
 
